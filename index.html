@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohammed Hussain Abid Khan - Floral Artist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600;700&family=Inter:wght@200;300;400;500;600&family=Dancing+Script:wght@400;500;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #A8BCAA;
+            --dusty-rose: #E8B4B8;
+            --cream: #F8F6F0;
+            --lavender-mist: #D4C5E8;
+            --soft-mint: #C8E6C9;
+            --warm-beige: #F5F1E8;
+            --deep-forest: #4A5D23;
+            --sunset-peach: #FFD3A5;
+            --twilight-purple: #6B5B95;
+            --morning-dew: #E8F5E8;
+            --text-primary: #3A4A3A;
+            --text-secondary: #6B7B6B;
+            --accent-gold: #D4AF37;
+            --gradient-primary: linear-gradient(135deg, var(--sage-green), var(--dusty-rose));
+            --gradient-secondary: linear-gradient(135deg, var(--lavender-mist), var(--sunset-peach));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            background: var(--cream);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Simplified Loading Screen - Just Flower */
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--morning-dew) 0%, var(--cream) 50%, var(--lavender-mist) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .loader-container.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.8);
+        }
+
+        .loader {
+            text-align: center;
+            position: relative;
+            animation: loaderEntrance 1.5s ease-out;
+        }
+
+        .flower-bloom {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 40px;
+            position: relative;
+            animation: bloomSequence 3s ease-in-out infinite;
+        }
+
+        .petal {
+            position: absolute;
+            width: 25px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            transform-origin: 12.5px 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            top: 50%;
+            left: 50%;
+            transform-origin: 12.5px 10px;
+        }
+
+        .petal:nth-child(1) { transform: translate(-50%, -50%) rotate(0deg) translateY(-30px); animation: petalDance 3s ease-in-out infinite 0s; }
+        .petal:nth-child(2) { transform: translate(-50%, -50%) rotate(60deg) translateY(-30px); animation: petalDance 3s ease-in-out infinite 0.3s; }
+        .petal:nth-child(3) { transform: translate(-50%, -50%) rotate(120deg) translateY(-30px); animation: petalDance 3s ease-in-out infinite 0.6s; }
+        .petal:nth-child(4) { transform: translate(-50%, -50%) rotate(180deg) translateY(-30px); animation: petalDance 3s ease-in-out infinite 0.9s; }
+        .petal:nth-child(5) { transform: translate(-50%, -50%) rotate(240deg) translateY(-30px); animation: petalDance 3s ease-in-out infinite 1.2s; }
+        .petal:nth-child(6) { transform: translate(-50%, -50%) rotate(300deg) translateY(-30px); animation: petalDance 3s ease-in-out infinite 1.5s; }
+
+        .flower-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, var(--accent-gold) 30%, var(--sunset-peach));
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            animation: centerPulse 2s ease-in-out infinite;
+        }
+
+        .loader-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: var(--twilight-purple);
+            margin-bottom: 20px;
+            animation: textGlow 3s ease-in-out infinite;
+            font-weight: 600;
+        }
+
+        .loader-subtext {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: subtextFade 2s ease-in-out infinite;
+        }
+
+        /* Floating Elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .floating-particle {
+            position: absolute;
+            opacity: 0.4;
+            animation: floatUp 15s linear infinite;
+        }
+
+        /* Enhanced Glassy Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(248, 246, 240, 0.8);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border-bottom: 1px solid rgba(168, 188, 170, 0.2);
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 1rem 0;
+        }
+
+        .navbar.scrolled {
+            background: rgba(248, 246, 240, 0.85);
+            backdrop-filter: blur(20px) saturate(200%);
+            -webkit-backdrop-filter: blur(20px) saturate(200%);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 0.7rem 0;
+            border-bottom: 1px solid rgba(168, 188, 170, 0.3);
+        }
+
+        .navbar.scrolled::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(168, 188, 170, 0.1) 0%, rgba(212, 180, 184, 0.1) 100%);
+            pointer-events: none;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            width: 55px;
+            height: 55px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 8px 25px rgba(168, 188, 170, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-name {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--twilight-purple);
+            line-height: 1;
+        }
+
+        .logo-tagline {
+            font-family: 'Crimson Text', serif;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 3rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 400;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .nav-links a:hover {
+            color: var(--twilight-purple);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background: var(--gradient-primary);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-line {
+            width: 25px;
+            height: 3px;
+            background: var(--twilight-purple);
+            margin: 3px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .mobile-toggle.active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(9px, 9px);
+        }
+
+        .mobile-toggle.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-toggle.active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(9px, -9px);
+        }
+
+        /* Enhanced Hero Section - No White Box */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--morning-dew), var(--cream), var(--lavender-mist));
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 120px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="floral" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="2" fill="rgba(168,188,170,0.1)"/><path d="M8,8 Q10,6 12,8 Q10,10 8,8" fill="rgba(212,180,184,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23floral)"/></svg>');
+            opacity: 0.6;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text {
+            animation: slideInLeft 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-title {
+            font-family: 'Crimson Text', serif;
+            font-size: 4.2rem;
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .hero-title .highlight {
+            color: var(--twilight-purple);
+            font-family: 'Dancing Script', cursive;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .hero-title .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+            animation: highlightGrow 2s ease-out 1s both;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            animation: fadeInUp 1.5s ease-out 0.5s both;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            font-weight: 300;
+            font-family: 'Inter', sans-serif;
+            animation: fadeInUp 1.5s ease-out 0.8s both;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1.3rem 3.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            font-family: 'Crimson Text', serif;
+            font-size: 1.1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(168, 188, 170, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1.5s ease-out 1.1s both;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(168, 188, 170, 0.4);
+        }
+
+        .hero-image {
+            text-align: center;
+            animation: slideInRight 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .hero-artwork {
+            width: 100%;
+            max-width: 480px;
+            height: 580px;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero-artwork img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 30px;
+        }
+
+        .floating-art-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .art-element {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.6;
+            animation: floatAround 8s ease-in-out infinite;
+        }
+
+        .art-element:nth-child(1) {
+            top: 15%;
+            left: 10%;
+            color: var(--sage-green);
+            animation-delay: 0s;
+        }
+
+        .art-element:nth-child(2) {
+            top: 70%;
+            right: 15%;
+            color: var(--dusty-rose);
+            animation-delay: 2s;
+        }
+
+        .art-element:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            color: var(--accent-gold);
+            animation-delay: 4s;
+        }
+
+        /* About Section with Image */
+        .about {
+            padding: 12rem 0;
+            background: var(--warm-beige);
+            position: relative;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-family: 'Crimson Text', serif;
+            font-size: 3.8rem;
+            text-align: center;
+            margin-bottom: 5rem;
+            color: var(--text-primary);
+            position: relative;
+            font-weight: 400;
+        }
+
+        .section-title .fancy {
+            font-family: 'Dancing Script', cursive;
+            color: var(--twilight-purple);
+            font-weight: 600;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 4px;
+            background: var(--gradient-primary);
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.2rem;
+            line-height: 1.9;
+            font-weight: 300;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .about-text h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            margin-bottom: 2.5rem;
+            color: var(--twilight-purple);
+            font-weight: 600;
+        }
+
+        .about-text p {
+            margin-bottom: 2.5rem;
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .about-visual {
+            text-align: center;
+            position: relative;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .artist-illustration {
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            margin: 0 auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .artist-illustration::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            z-index: -1;
+            animation: rotate 10s linear infinite;
+        }
+
+        .artist-illustration img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        /* Enhanced Gallery Section with Images */
+        .gallery {
+            padding: 12rem 0;
+            background: linear-gradient(135deg, var(--cream), var(--morning-dew));
+            position: relative;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 4rem;
+            max-width: 1400px;
+            margin: 5rem auto 0;
+            padding: 0 2rem;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+
+        .gallery-item:hover::before {
+            opacity: 0.1;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery-image {
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border-radius: 25px 25px 0 0;
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover .gallery-image img {
+            transform: scale(1.1);
+        }
+
+        .gallery-content {
+            padding: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .gallery-content h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--twilight-purple);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-content h3 {
+            color: var(--deep-forest);
+            transform: translateY(-5px);
+        }
+
+        .gallery-content p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-weight: 300;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-content p {
+            color: var(--text-primary);
+        }
+
+        /* Contact Section - No White Box */
+        .contact {
+            padding: 12rem 0;
+            background: linear-gradient(135deg, var(--morning-dew), var(--lavender-mist));
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8rem;
+            align-items: center;
+        }
+
+        .contact-info h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.2rem;
+            margin-bottom: 2.5rem;
+            color: var(--twilight-purple);
+            font-weight: 600;
+        }
+
+        .contact-info p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 4rem;
+            font-weight: 300;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+        }
+
+        .contact-item:hover {
+            transform: translateX(10px) translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            border-color: var(--sage-green);
+        }
+
+        .contact-item i {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 8px 20px rgba(168, 188, 170, 0.3);
+        }
+
+        .contact-item-content {
+            flex: 1;
+        }
+
+        .contact-item-content strong {
+            display: block;
+            color: var(--twilight-purple);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            font-family: 'Crimson Text', serif;
+            font-size: 1.3rem;
+        }
+
+        .contact-item-content span {
+            color: var(--text-secondary);
+            font-weight: 400;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+        }
+
+        .contact-item-content a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item-content a:hover {
+            color: var(--twilight-purple);
+        }
+
+        .contact-visual {
+            text-align: center;
+            position: relative;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .contact-artwork {
+            width: 100%;
+            max-width: 450px;
+            height: 500px;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-artwork img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 30px;
+        }
+
+        /* Enhanced Footer */
+        .footer {
+            background: linear-gradient(135deg, var(--twilight-purple) 0%, var(--deep-forest) 100%);
+            color: white;
+            padding: 4rem 0 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        }
+
+        .footer::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="60" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.5;
+            animation: starfield 20s linear infinite;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-logo {
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .footer-logo-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            margin: 0 auto 1rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-logo-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        .footer-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .footer-subtitle {
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        /* Enhanced Animations */
+        @keyframes loaderEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes bloomSequence {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        @keyframes petalDance {
+            0%, 100% { transform: translate(-50%, -50%) rotate(var(--rotation, 0deg)) translateY(-30px) scale(1); }
+            50% { transform: translate(-50%, -50%) rotate(var(--rotation, 0deg)) translateY(-35px) scale(1.1); }
+        }
+
+        @keyframes centerPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
+            50% { transform: translate(-50%, -50%) scale(1.2); box-shadow: 0 0 30px rgba(212, 175, 55, 0.8); }
+        }
+
+        @keyframes textGlow {
+            0%, 100% { opacity: 0.8; text-shadow: 0 0 10px rgba(107, 91, 149, 0.3); }
+            50% { opacity: 1; text-shadow: 0 0 20px rgba(107, 91, 149, 0.6); }
+        }
+
+        @keyframes subtextFade {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes floatUp {
+            0% { 
+                opacity: 0;
+                transform: translateY(100vh) translateX(0px) rotate(0deg);
+            }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { 
+                opacity: 0;
+                transform: translateY(-100px) translateX(50px) rotate(360deg);
+            }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-80px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(80px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes highlightGrow {
+            from {
+                width: 0;
+                left: 50%;
+            }
+            to {
+                width: 100%;
+                left: 0;
+            }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes floatAround {
+            0%, 100% { 
+                transform: translateY(0px) translateX(0px) rotate(0deg); 
+            }
+            25% { 
+                transform: translateY(-20px) translateX(15px) rotate(90deg); 
+            }
+            50% { 
+                transform: translateY(-10px) translateX(-15px) rotate(180deg); 
+            }
+            75% { 
+                transform: translateY(-25px) translateX(10px) rotate(270deg); 
+            }
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+
+        @keyframes starfield {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .hero-content {
+                gap: 4rem;
+            }
+
+            .hero-title {
+                font-size: 3.8rem;
+            }
+
+            .about-content,
+            .contact-content {
+                gap: 6rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 3.5rem;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .nav-links {
+                gap: 2rem;
+            }
+
+            .hero-content {
+                gap: 4rem;
+            }
+
+            .hero-title {
+                font-size: 3.5rem;
+            }
+
+            .section-title {
+                font-size: 3.2rem;
+            }
+
+            .about-content,
+            .contact-content {
+                gap: 5rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 3rem;
+            }
+
+            .artist-illustration {
+                width: 350px;
+                height: 350px;
+            }
+
+            .contact-artwork {
+                max-width: 400px;
+                height: 450px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 100px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 100px);
+                background: rgba(248, 246, 240, 0.98);
+                flex-direction: column;
+                justify-content: start;
+                align-items: center;
+                padding-top: 4rem;
+                gap: 3rem;
+                transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                backdrop-filter: blur(20px);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
+            .hero-artwork {
+                max-width: 400px;
+                height: 450px;
+            }
+
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+                text-align: center;
+            }
+
+            .section-title {
+                font-size: 2.8rem;
+            }
+
+            .artist-illustration {
+                width: 300px;
+                height: 300px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .contact-artwork {
+                max-width: 350px;
+                height: 400px;
+            }
+
+            .floating-elements {
+                display: none;
+            }
+
+            .about {
+                padding: 8rem 0;
+            }
+
+            .gallery {
+                padding: 8rem 0;
+            }
+
+            .contact {
+                padding: 8rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .hero-description {
+                font-size: 0.95rem;
+            }
+
+            .logo-name {
+                font-size: 1.5rem;
+            }
+
+            .logo-tagline {
+                font-size: 0.8rem;
+            }
+
+            .logo-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 1.5rem;
+            }
+
+            .cta-button {
+                padding: 1.1rem 2.5rem;
+                font-size: 1rem;
+            }
+
+            .hero-artwork {
+                max-width: 320px;
+                height: 400px;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+                margin-bottom: 3rem;
+            }
+
+            .about-text h3 {
+                font-size: 2.5rem;
+            }
+
+            .about-text {
+                font-size: 1.1rem;
+            }
+
+            .artist-illustration {
+                width: 250px;
+                height: 250px;
+            }
+
+            .gallery-image {
+                height: 220px;
+            }
+
+            .gallery-content {
+                padding: 2rem;
+            }
+
+            .gallery-content h3 {
+                font-size: 1.8rem;
+            }
+
+            .contact-item {
+                padding: 1.2rem;
+                gap: 1.5rem;
+            }
+
+            .contact-item i {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .contact-artwork {
+                max-width: 280px;
+                height: 320px;
+            }
+
+            .about {
+                padding: 6rem 0;
+            }
+
+            .gallery {
+                padding: 6rem 0;
+            }
+
+            .contact {
+                padding: 6rem 0;
+            }
+
+            .flower-bloom {
+                width: 100px;
+                height: 100px;
+            }
+
+            .loader-text {
+                font-size: 2rem;
+            }
+
+            .loader-subtext {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .hero-artwork {
+                max-width: 280px;
+                height: 350px;
+            }
+
+            .artist-illustration {
+                width: 220px;
+                height: 220px;
+            }
+
+            .contact-artwork {
+                max-width: 250px;
+                height: 300px;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .navbar,
+            .floating-elements,
+            .cta-button,
+            .mobile-toggle,
+            .loader-container {
+                display: none;
+            }
+
+            body {
+                font-size: 12pt;
+                line-height: 1.4;
+                color: #000;
+                background: #fff;
+            }
+
+            .hero,
+            .about,
+            .gallery,
+            .contact {
+                padding: 2rem 0;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Simplified Loading Screen - Just Flower -->
+    <div class="loader-container" id="loader">
+        <div class="loader">
+            <div class="flower-bloom">
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="flower-center"></div>
+            </div>
+            <div class="loader-text">Blooming Beautiful Art</div>
+            <div class="loader-subtext">Creating Magic</div>
+        </div>
+    </div>
+
+    <!-- Floating Elements -->
+    <div class="floating-elements" id="floatingElements"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <div class="logo-text">
+                    <div class="logo-name">Mohammed Hussain Abid Khan</div>
+                    <div class="logo-tagline">Floral Artist</div>
+                </div>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-toggle" id="mobileToggle">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    Creating <span class="highlight">Beautiful</span><br>
+                    Floral Art with Precision
+                </h1>
+                <p class="hero-subtitle">Master of Hand Lettering & Botanical Illustrations</p>
+                <p class="hero-description">
+                    Transforming simple pens into magical instruments that bring nature's beauty to life. 
+                    Each stroke tells a story, every petal captures emotion, and every design blooms with passion 
+                    and artistic excellence.
+                </p>
+                <a href="#gallery" class="cta-button">
+                    <i class="fas fa-palette"></i>
+                    Explore My Art
+                </a>
+            </div>
+            <div class="hero-image">
+                <div class="hero-artwork">
+                    <img src="https://ik.imagekit.io/hackenvision/Floral%20Art/WhatsApp%20Image%202025-08-30%20at%2016.11.34_d6e86153-Photoroom.png?updatedAt=1756550671740" alt="Beautiful floral artwork showcase" loading="lazy">
+                    <div class="floating-art-elements">
+                        <div class="art-element">🌸</div>
+                        <div class="art-element">🌿</div>
+                        <div class="art-element">✨</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title">About the <span class="fancy">Artist</span></h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Mohammed Hussain Abid Khan</h3>
+                    <p>
+                        Welcome to my world of botanical artistry! I'm a passionate floral artist who believes that 
+                        nature's beauty can be captured with nothing more than a simple pen and boundless creativity. 
+                        My journey began with a fascination for the intricate details found in every petal, leaf, and stem.
+                    </p>
+                    <p>
+                        Through years of dedication and practice, I've developed a unique style that combines traditional 
+                        techniques with modern sensibilities. Each piece I create is a meditation on the natural world, 
+                        designed to bring peace, beauty, and inspiration to your space.
+                    </p>
+                </div>
+                <div class="about-visual">
+                    <div class="artist-illustration">
+                        <img src="https://ik.imagekit.io/hackenvision/Floral%20Art/WhatsApp%20Image%202025-08-30%20at%2016.11.32_a38eee9e-Photoroom.png?updatedAt=1756550886155" alt="Mohammed Hussain Abid Khan - Floral Artist" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <h2 class="section-title">Art <span class="fancy">Gallery</span></h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="https://ik.imagekit.io/hackenvision/Floral%20Art/f1.jpg?updatedAt=1756551328959" alt="Rose Studies - Delicate pen illustrations" loading="lazy">
+                    </div>
+                    <div class="gallery-content">
+                        <h3>Rose Studies</h3>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="https://ik.imagekit.io/hackenvision/Floral%20Art/f3.jpg?updatedAt=1756551729146" alt="Botanical Collections - Detailed leaf studies" loading="lazy">
+                    </div>
+                    <div class="gallery-content">
+                        <h3>Botanical Collections</h3>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="https://ik.imagekit.io/hackenvision/Floral%20Art/f2.jpg?updatedAt=1756551534363" alt="Growth Series - Nature's transformation" loading="lazy">
+                    </div>
+                    <div class="gallery-content">
+                        <h3>Growth Series</h3>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="https://ik.imagekit.io/hackenvision/Floral%20Art/f4.jpg?updatedAt=1756551983985" alt="Floral Patterns - Decorative botanical designs" loading="lazy">
+                    </div>
+                    <div class="gallery-content">
+                        <h3>Floral Patterns</h3>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="https://ik.imagekit.io/hackenvision/Floral%20Art/f5.jpg?updatedAt=1756553058466" alt="Wildflower Series - Free-spirited floral art" loading="lazy">
+                    </div>
+                    <div class="gallery-content">
+                        <h3>Wildflower Series</h3>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="https://ik.imagekit.io/hackenvision/Floral%20Art/f6.jpg?updatedAt=1756553203179" alt="Seasonal Blooms - Capturing nature's cycles" loading="lazy">
+                    </div>
+                    <div class="gallery-content">
+                        <h3>Seasonal Blooms</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Let's <span class="fancy">Create Together</span></h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <p>
+                        Ready to bring botanical beauty into your life? Whether you're looking for custom artwork, 
+                        wedding illustrations, or unique gifts, I'd love to discuss your vision and create something 
+                        truly special together. Let's turn your ideas into beautiful floral art.
+                    </p>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="contact-item-content">
+                            <strong>Email</strong>
+                            <span><a href="mailto:mohammed.floralart@gmail.com">mdhussainkhanfloralartist25@gmail.com</a></span>
+                        </div>
+                    </div>
+                </div>
+                
+  
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="footer-logo-icon">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <div class="footer-title">Mohammed Hussain Abid Khan</div>
+                <div class="footer-subtitle">Where art blooms and nature inspires</div>
+            </div>
+            
+            <p class="footer-text">&copy; 2025 Mohammed Hussain Abid Khan - Floral Artist. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced Loading screen with better timing
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader');
+            setTimeout(function() {
+                loader.classList.add('hidden');
+                // Start floating particle animation after loading
+                initializeFloatingParticles();
+            }, 3500);
+        });
+
+        // Enhanced floating particles system
+        function initializeFloatingParticles() {
+            const floatingContainer = document.getElementById('floatingElements');
+            const particles = ['🌸', '🌺', '🌷', '🌻', '🌹', '🍃', '🌿', '✨', '💫', '⭐', '🦋', '🌼'];
+            
+            function createParticle() {
+                if (window.innerWidth <= 768) return; // Don't create particles on mobile
+                
+                const particle = document.createElement('div');
+                const randomParticle = particles[Math.floor(Math.random() * particles.length)];
+                
+                particle.innerHTML = randomParticle;
+                particle.className = 'floating-particle';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.fontSize = (Math.random() * 1 + 1) + 'rem';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                
+                floatingContainer.appendChild(particle);
+                
+                setTimeout(() => {
+                    if (particle.parentNode) {
+                        particle.remove();
+                    }
+                }, 15000);
+            }
+            
+            // Create particles periodically
+            setInterval(createParticle, 2000);
+        }
+
+        // Enhanced navbar scroll effect
+        let lastScrollY = 0;
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            // Hide/show navbar on scroll
+            if (currentScrollY > lastScrollY && currentScrollY > 200) {
+                navbar.style.transform = 'translateY(-100%)';
+            } else {
+                navbar.style.transform = 'translateY(0)';
+            }
+            
+            lastScrollY = currentScrollY;
+        });
+
+        // Enhanced mobile navigation
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        if (mobileToggle && navLinks) {
+            mobileToggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+            });
+
+            // Close mobile nav when clicking on a link
+            const navLinkItems = navLinks.querySelectorAll('a');
+            navLinkItems.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+        }
+
+        // Smooth scrolling for navigation links with offset for fixed navbar
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 100;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Enhanced intersection observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animations
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.gallery-item, .contact-item').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+                observer.observe(el);
+            });
+        });
+
+        // Add interactive hover effects with enhanced animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Contact items enhanced hover
+            document.querySelectorAll('.contact-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(15px) translateY(-8px)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0) translateY(0)';
+                });
+            });
+            
+            // Logo animation on hover
+            const logo = document.querySelector('.logo');
+            if (logo) {
+                logo.addEventListener('mouseenter', function() {
+                    const icon = this.querySelector('.logo-icon');
+                    if (icon) {
+                        icon.style.transform = 'scale(1.1) rotate(10deg)';
+                    }
+                });
+                
+                logo.addEventListener('mouseleave', function() {
+                    const icon = this.querySelector('.logo-icon');
+                    if (icon) {
+                        icon.style.transform = 'scale(1) rotate(0deg)';
+                    }
+                });
+            }
+        });
+
+        // Add scroll-triggered animations for hero elements
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.floating-art-elements .art-element');
+            
+            parallaxElements.forEach((element, index) => {
+                const speed = 0.5 + (index * 0.2);
+                element.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.1}deg)`;
+            });
+        });
+
+        // Performance optimization: Throttle scroll events
+        function throttle(func, limit) {
+            let inThrottle;
+            return function() {
+                const args = arguments;
+                const context = this;
+                if (!inThrottle) {
+                    func.apply(context, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            }
+        }
+
+        // Apply throttling to scroll events
+        window.addEventListener('scroll', throttle(function() {
+            // Scroll-based animations here
+        }, 16)); // ~60fps
+
+        // Add accessibility improvements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add focus indicators for keyboard navigation
+            const focusableElements = document.querySelectorAll('a, button, [tabindex]');
+            focusableElements.forEach(element => {
+                element.addEventListener('focus', function() {
+                    this.style.outline = '2px solid var(--twilight-purple)';
+                    this.style.outlineOffset = '2px';
+                });
+                
+                element.addEventListener('blur', function() {
+                    this.style.outline = 'none';
+                });
+            });
+        });
+
+        // Preload critical images and optimize performance
+        function preloadImages() {
+            const imageUrls = [
+                'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                'https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1490750967868-88aa4486c946?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
+            ];
+            imageUrls.forEach(url => {
+                const img = new Image();
+                img.src = url;
+            });
+        }
+
+        // Initialize all enhancements
+        document.addEventListener('DOMContentLoaded', function() {
+            preloadImages();
+            
+            // Add resize handler for responsive adjustments
+            window.addEventListener('resize', throttle(function() {
+                // Handle responsive adjustments
+                if (window.innerWidth <= 768) {
+                    // Mobile optimizations
+                    document.querySelectorAll('.floating-particle').forEach(particle => {
+                        particle.remove();
+                    });
+                }
+            }, 250));
+
+            // Add image lazy loading fallback for older browsers
+            const images = document.querySelectorAll('img[loading="lazy"]');
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.classList.add('loaded');
+                            observer.unobserve(img);
+                        }
+                    });
+                });
+
+                images.forEach(img => imageObserver.observe(img));
+            }
+
+            // Error handling for images
+            images.forEach(img => {
+                img.addEventListener('error', function() {
+                    this.style.background = 'var(--gradient-primary)';
+                    this.style.display = 'flex';
+                    this.style.alignItems = 'center';
+                    this.style.justifyContent = 'center';
+                    this.style.color = 'white';
+                    this.style.fontSize = '3rem';
+                    this.innerHTML = '<i class="fas fa-image"></i>';
+                });
+            });
+        });
+
+        // Add smooth transitions for better UX
+        window.addEventListener('DOMContentLoaded', function() {
+            // Add intersection observer for stagger animations
+            const staggerObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(50px)';
+                item.style.transition = 'all 0.6s ease';
+                staggerObserver.observe(item);
+            });
+        });
+
+        // Add touch support for mobile interactions
+        if ('ontouchstart' in window) {
+            document.querySelectorAll('.gallery-item, .contact-item').forEach(item => {
+                item.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.98)';
+                });
+                
+                item.addEventListener('touchend', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        }
+    </script>
+</body>
+</html>
